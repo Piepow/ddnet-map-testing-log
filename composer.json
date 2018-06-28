@@ -1,0 +1,13 @@
+{
+    "name": "ddnet/map-testing-log",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "DDNet\\MapTestingLog\\": "src/"
+        }
+    },
+    "require": {
+        "slim/slim": "^3.0",
+        "slim/php-view": "^2.2"
+    }
+}

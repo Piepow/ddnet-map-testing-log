@@ -1,0 +1,38 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    min-width: 300px;
+    font-size: $font-size;
+    color: $text-color;
+}
+
+body {
+    font-family: $font-family-sans-serif;
+    background-color: $background-color;
+    font-size: 1rem;
+    line-height: $line-height;
+}
+
+strong {
+    color: getStrongTextColor($text-color);
+}
+
+code, pre {
+    font-family: $font-family-monospace;
+}
+
+a {
+    color: $link;
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+li {
+    list-style-type: none;
+}

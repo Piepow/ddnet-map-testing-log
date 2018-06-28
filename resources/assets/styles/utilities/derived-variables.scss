@@ -1,0 +1,33 @@
+// =============
+// Global colors
+// =============
+
+$primary: #7289da;
+
+$success: $green;
+$warning: $orange;
+$danger: $red;
+
+$background-color: #36393f;
+
+$text-color: transparentize($white, 0.3);
+
+$link: $primary;
+$link-visited: $purple;
+
+$font-family-primary: $font-family-sans-serif;
+
+$user-colors: (
+    generic: $link,
+    everyone: $white,
+    moderator: $blue,
+    helper: #7b6ab2,
+    non-ddr-moderator: $cyan,
+    tester: getDarkVariant($yellow),
+    map-release-squad: $red,
+    skin-database-crew: $magenta,
+    dev: #9b528d,
+    ddnet: #ffa513,
+    discord-admin: #e3482d,
+    tournament-winner: #dfcf40
+);

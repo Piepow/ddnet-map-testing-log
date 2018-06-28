@@ -1,0 +1,39 @@
+@function tint($color, $percentage) {
+  @return mix(white, $color, $percentage);
+}
+
+@function shade($color, $percentage) {
+  @return mix(black, $color, $percentage);
+}
+
+@function getDarkVariant($color) {
+    @return shade($color, 10%);
+}
+
+@function getAsideBackgroundColor($mainBackgroundColor, $factor: 1) {
+    @return shade($mainBackgroundColor, (13% * $factor));
+}
+
+@function getBorderColor($backgroundColor) {
+    @return shade($backgroundColor, 20%);
+}
+
+@function getStrongTextColor($textColor) {
+    @return opacify($textColor, 0.3);
+}
+
+@function getSubtleTextColor($textColor) {
+    @return transparentize($textColor, 0.5);
+}
+
+@function getInactiveColor($color) {
+    @return transparentize($color, 0.2);
+}
+
+@function getTintedBackgroundColor($backgroundColor) {
+    @return tint($backgroundColor, 10%);
+}
+
+@function getHoverColor($color) {
+    @return opacify($color, 0.3);
+}

@@ -1,0 +1,50 @@
+$gutter: 0.5em;
+
+.log-list {
+    background-color: getAsideBackgroundColor($background-color);
+    padding: $padding $gutter;
+
+    @include from($mobile) {
+        flex-shrink: 0;
+    }
+}
+
+.log-list-heading {
+    padding: 0 $padding;
+    margin-bottom: $padding / 2;
+    text-transform: uppercase;
+    font-size: $font-size - 2px;
+    color: getSubtleTextColor($text-color);
+}
+
+.log-list-item {
+    padding: 2px $padding 2px $padding;
+
+    &.active {
+        .channel-name {
+            color: getStrongTextColor($text-color);
+            font-weight: bold;
+        }
+    }
+
+    &:hover {
+        cursor: pointer;
+        color: getStrongTextColor($text-color);
+        background-color: getTintedBackgroundColor($background-color);
+        border-radius: $radius;
+
+        &:not(.active) {
+            .channel-name {
+                color: $text-color;
+            }
+        }
+    }
+
+    .channel-name {
+        color: getInactiveColor($text-color);
+
+        &:hover {
+            text-decoration: none;
+        }
+    }
+}

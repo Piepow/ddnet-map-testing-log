@@ -1,0 +1,44 @@
+// ======
+// Colors
+// ======
+
+$black: hsl(216, 15%, 13%);
+$grey: hsl(202, 5%, 62%);
+$white: hsl(0, 0%, 100%);
+
+$cyan: #1abc9c;
+$green: #2ecc71;
+$blue: #3498db;
+$purple: #9b59b6;
+$magenta: #e91e63;
+$yellow: #f1c40f;
+$orange: #e67e22;
+$red: #e74c3c;
+
+// ==========
+// Typography
+// ==========
+
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,700,700i');
+
+$font-family-sans-serif: Frutiger, "Myriad Pro", Myriad, "Source Sans Pro",
+Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif;
+$font-family-monospace: Consolas, "Andale Mono WT", "Andale Mono", "Lucida
+Console", monospace;
+
+// The container horizontal gap, which acts as the offset for breakpoints
+$gap: 32px;
+$mobile: 320px;
+$tablet: 769px;
+$desktop: 1224px;
+
+// =============
+// Miscellaneous
+// =============
+
+$font-size: 16px;
+$easing: ease-out;
+$radius: 3px;
+$speed: 86ms;
+$padding: 1em;
+$line-height: 1.3;
