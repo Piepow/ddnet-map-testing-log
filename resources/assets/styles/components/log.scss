@@ -1,6 +1,5 @@
 $header-height: 48px;
 $msg-margin: $padding;
-$mention-background-transparency: 0.9;
 
 .log-header {
     display: flex;
@@ -143,17 +142,17 @@ img.msg-attachment {
     color: getSubtleTextColor($text-color);
 }
 
-@each $user-name, $user-color in $user-colors {
+@each $user-name, $user-color in map-merge($role-colors, (generic: $link)) {
     .mention-#{$user-name} {
         color: $user-color;
         background-color: transparentize(
             $user-color,
-            $mention-background-transparency
+            0.9
         );
     }
 }
 
-@each $user-name, $user-color in $user-colors {
+@each $user-name, $user-color in map-merge($role-colors, (generic: $white)) {
     .msg-user-#{$user-name} {
         color: $user-color;
     }

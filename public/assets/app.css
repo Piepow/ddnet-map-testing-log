@@ -33,7 +33,7 @@ strong {
   color: white; }
 
 code, pre {
-  font-family: Consolas, "Andale Mono WT", "Andale Mono", "Lucida\A   Console", monospace; }
+  font-family: Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", monospace; }
 
 a {
   color: #7289da;
@@ -124,7 +124,7 @@ li {
     max-width: 90%; }
   .log span.pre {
     background: #2f3237;
-    font-family: Consolas, "Andale Mono WT", "Andale Mono", "Lucida\A   Console", monospace;
+    font-family: Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", monospace;
     padding: 0.25em 0.5em;
     white-space: pre-wrap;
     font-size: 14px; }
@@ -185,14 +185,6 @@ img.msg-attachment {
   margin-left: 1em;
   color: rgba(255, 255, 255, 0.2); }
 
-.mention-generic {
-  color: #7289da;
-  background-color: rgba(114, 137, 218, 0.1); }
-
-.mention-everyone {
-  color: white;
-  background-color: rgba(255, 255, 255, 0.1); }
-
 .mention-moderator {
   color: #3498db;
   background-color: rgba(52, 152, 219, 0.1); }
@@ -233,11 +225,9 @@ img.msg-attachment {
   color: #dfcf40;
   background-color: rgba(223, 207, 64, 0.1); }
 
-.msg-user-generic {
-  color: #7289da; }
-
-.msg-user-everyone {
-  color: white; }
+.mention-generic {
+  color: #7289da;
+  background-color: rgba(114, 137, 218, 0.1); }
 
 .msg-user-moderator {
   color: #3498db; }
@@ -268,4 +258,7 @@ img.msg-attachment {
 
 .msg-user-tournament-winner {
   color: #dfcf40; }
+
+.msg-user-generic {
+  color: white; }
 
