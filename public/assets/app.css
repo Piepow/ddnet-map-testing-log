@@ -115,19 +115,21 @@ li {
   margin-top: 48px;
   padding: 1em; }
   .log pre {
-    background: #2f3237;
-    color: #999fa3;
-    padding: 1em;
-    margin-top: 1em;
-    border-radius: 3px;
-    border: 2px solid #2b2e32;
+    background: #2f3136;
+    color: #839496;
+    font-family: Consolas, Courier New, Courier, Monospace;
+    margin-top: 4px;
+    padding: 8px;
+    white-space: pre-wrap;
+    border: 2px solid #282b30;
+    border-radius: 5px;
     max-width: 90%; }
   .log span.pre {
-    background: #2f3237;
-    font-family: Consolas, "Andale Mono WT", "Andale Mono", "Lucida\A   Console", monospace;
-    padding: 0.25em 0.5em;
-    white-space: pre-wrap;
-    font-size: 14px; }
+    background-color: #2f3136;
+    font-family: Consolas, Courier New, Courier, Monospace;
+    padding: 2px;
+    border-radius: 3px;
+    white-space: pre-wrap;}
   .log > .msg {
     border-top: none;
     padding-top: 0; }
@@ -268,4 +270,39 @@ img.msg-attachment {
 
 .msg-user-tournament-winner {
   color: #dfcf40; }
+
+  span.reaction {
+    display: flex;
+    flex: 1;
+    flex-wrap: wrap;
+    margin-top: 8px;
+    margin-left: -2px; }
+
+div.reaction {
+    background-color: #ffffff0a;
+    border-radius: 3px;
+    box-sizing: border-box;
+    flex-shrink: 0;
+    margin: 2px;
+    padding: 0 6px; }
+
+div.reaction-count {
+    color: #ffffff4d;
+    min-width: 9px;
+    display: inline-block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    height: 21px;
+    letter-spacing: 0.00813rem;
+    line-height: 1.3125rem;
+    margin-left: 6px;
+    text-align: center;
+    vertical-align: top; }
+
+img.reaction-emoji {
+    height: 1rem;
+    margin: 3px 0!important;
+    min-height: auto;
+    min-width: auto;
+    width: 1rem; }
 
