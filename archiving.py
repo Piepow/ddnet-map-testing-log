@@ -1,318 +1,263 @@
+import datetime
+import re
+import itertools
+import configparser
+import os
+import json
+
 import discord
 from discord.ext import commands
-
-import datetime
-from datetime import timedelta
-import re
-from html import escape
-
 from utils import default
 
+config = default.get('config.json')
+
+def format_size(size):
+    for unit in ['', 'K', 'M']:
+        if abs(size) < 1024.0:
+            return '%3.1f' % size, unit + 'B'
+
+        size /= 1024.0
 
 class Archiving:
     def __init__(self, bot):
         self.bot = bot
 
+    async def on_ready(self):
+        global guild
+        guild = self.bot.get_guild(int(config.guild))
+
     @commands.command(pass_context=True)
     async def archive(self, ctx):
+        def process_reaction(reaction):
+            return {
+                'emoji': reaction.emoji,
+                'count': reaction.count
+            }
+
+        def process_custom_reaction(name, id, count):
+            return {
+                'name': name,
+                'url': f'https://cdn.discordapp.com/emojis/{id}.png',
+                'count': count
+            }
+
+
+        def process_file(attachment):
+            basename, extension = os.path.splitext(attachment.filename)
+            filesize, units = format_size(attachment.size)
+            return {
+                'attachment': {
+                    'url': attachment.url,
+                    'basename': basename,
+                    'extension': extension[:1],
+                    'filesize': filesize,
+                    'filesize-units': units
+                }
+            }
+
+        def process_image(image):
+            basename, extension = os.path.splitext(image.filename)
+            return {
+                'image': {
+                    'url': image.url,
+                    'basename': basename,
+                    'extension': extension[:1]
+                }
+            }
+
+        def process_custom_emoji(groups):
+            name = groups[0]
+            id = groups[1]
+            return {
+                'custom-emoji': {
+                    'name': name,
+                    'url': f'https://cdn.discordapp.com/emojis/{id}.png'
+                }
+            }
+
+        def process_user_mention(groups):
+            user = guild.get_member(int(groups[0]))
+            roles = []
+            for r in user.roles:
+                roles.append(r.name)
+
+            if len(roles) > 1:
+                del roles[0]
+
+            else:
+                roles = ['generic']
+
+            return {
+                'user-mention': {
+                    'name': user.name,
+                    'discriminator': user.discriminator,
+                    'avatar': user.avatar_url_as(format='png')[:-9],
+                    'roles': roles[::-1]
+                }
+            }
+
+        def process_channel_mention(groups):
+            channel = guild.get_channel(int(groups[0]))
+            category = discord.utils.get(guild.categories, id=channel.category_id)
+            return {
+                'channel-mention': {
+                    'name': channel.name,
+                    'category': category.name,
+                }
+            }
+
+        def process_role_mention(groups):
+            role = discord.utils.get(guild.roles, id=int(groups[0]))
+            return {
+                'role-mention': {
+                    'name': role.name
+                }
+            }
+
+        def process_url(groups):
+            url_string = groups[0]
+            return {
+                'url': url_string
+            }
+
+        regexes = [
+            {
+                'processor': process_custom_emoji,
+                'regex': r'<(:.*?:)(\d*)>'
+            },
+            {
+                'processor': process_user_mention,
+                'regex': r'<@!?(\d+)>'
+            },
+            {
+                'processor': process_channel_mention,
+                'regex': r'<#(\d+)>'
+            },
+            {
+                'processor': process_role_mention,
+                'regex': r'<@&(\d+)>'
+            },
+            {
+                'processor': process_url,
+                'regex': r'(\b(?:(?:https?|ftp|file)://|www\.|ftp\.)(?:\([-a-zA-Z0-9+&@#/%?=~_|!:,\.\[\];]*\)|[-a-zA-Z0-9+&@#/%?=~_|!:,\.\[\];])*(?:\([-a-zA-Z0-9+&@#/%?=~_|!:,\.\[\];]*\)|[-a-zA-Z0-9+&@#/%=~_|$]))'
+            }
+        ]
+
         await ctx.message.delete()
 
-        with open(f'logs/test.html', 'w', encoding='utf-8') as output:
-            topic = ctx.channel.topic
+        channel = ctx.channel
+        topic = str(channel.topic).replace('**', '')
+        options = [':zero:', ':one:', ':two:', ':three:', ':four:', ':five:', ':six:', ':seven:', ':eight:', ':nine:']
 
-            #Topic emojis
-            regex = r'(:)([a-z]+)\1'
-            matches = re.finditer(regex, ctx.channel.topic)
+        for x in enumerate(options):
+            if x[1] in topic:
+                topic = topic.replace(x[1], str(x[0]))
 
-            for match in matches:
-                string = match.group()
+        output = {
+            'channel-name': channel.name,
+            'channel-topic': topic
+        }
 
-                if ':zero:' in string:
-                    value = '<b>0</b>'
-                if ':one:' in string:
-                    value = '<b>1</b>'
-                elif ':two:' in string:
-                    value = '<b>2</b>'
-                elif ':three:' in string:
-                    value = '<b>3</b>'
-                elif ':four:' in string:
-                    value = '<b>4</b>'
-                elif ':five:' in string:
-                    value = '<b>5</b>'
-                elif ':six:' in string:
-                    value = '<b>6</b>'
-                elif ':seven:' in string:
-                    value = '<b>7</b>'
-                elif ':eight:' in string:
-                    value = '<b>8</b>'
-                elif ':nine:' in string:
-                    value = '<b>9</b>'
-                elif ':keycap_ten:' in string:
-                    value = '<b>10</b>'
+        messages = []
 
-                topic = topic.replace(string, value)
+        async for message in channel.history(reverse=True):
+            user = message.author
+            time = message.created_at
 
-            regex = r':[a-z]+:'
-            matches = re.finditer(regex, topic)
+            roles = []
+            for r in user.roles:
+                roles.append(r.name)
 
-            for match in matches:
-                string = match.group()
-                topic = topic.replace(string, '')
+            if len(roles) > 1:
+                del roles[0]
 
+            else:
+                roles = ['generic']
 
-            #Topic bold
-            regex = r'(\*\*)(?=\S)(.+?[*_]*)(?<=\S)\1'
-            matches = re.finditer(regex, topic)
+            current_message = {
+                'user': {
+                    'name': user.name,
+                    'discriminator': user.discriminator,
+                    'avatar': user.avatar_url_as(format='png')[:-9],
+                    'roles': roles[::-1]
+                },
+                'date': {
+                    'year': time.year,
+                    'month': time.month,
+                    'day': time.day
+                },
+                'time': {
+                    'hour': time.hour,
+                    'minute': time.minute
+                },
+                'content': []
+            }
 
-            for match in matches:
-                string = match.group()
-                old_string = string
-                string = re.sub('^\*\*', '<b>', string)
-                string = re.sub('\*\*$', '</b>', string)
-                topic = topic.replace(old_string, string)
+            if message.content:
+                message_content = [{'text': message.content}]
 
-            author = ''
-            content_html = ''
-            count = 0
+                for regex in regexes:
+                    for key, message_chunk in enumerate(message_content):
+                        if "text" in message_chunk:
+                            match = re.search(regex["regex"], message_content[key]["text"])
+                            if match:
+                                text = message_content[key]["text"]
 
-            async for log in ctx.message.channel.history(limit=10000000, reverse=True):
-                time = log.created_at.strftime("%m/%d/%Y %I:%M %p")
-                content = escape(log.content)
-                count += 1
-                if 'last_created_at' not in locals():
-                    last_created_at = log.created_at
+                                text_before_match = text[:match.start()]
+                                if text_before_match:
+                                    message_content[key] = {"text": text_before_match}
+                                    key += 1
+                                else:
+                                    del message_content[key]
 
-                #@everyone
-                content = content.replace("@everyone", "<span class=\"mention-generic\">@everyone</span>")
+                                # If there are capturing groups, send those. If not, send the
+                                # whole matched string
+                                processed_match = regex["processor"](
+                                    match.groups() if match.groups() else match.group(0)
+                                )
+                                message_content.insert(
+                                    key,
+                                    processed_match
+                                )
+                                key += 1
 
-                #@here
-                content = content.replace("@here", "<span class=\"mention-generic\">@here</span>")
+                                text_after_match = text[match.end():]
+                                if text_after_match:
+                                    message_content.insert(
+                                        key,
+                                        {"text": text_after_match}
+                                    )
 
-                #User mentions
-                regex = r'&lt;@([0-9]+)&gt;'
-                matches = re.finditer(regex, content)
+                current_message['content'].append(message_content)
 
-                for match in matches:
-                    mention = match.group()
-                    member = ctx.guild.get_member(int(mention.replace('&lt;@', '').replace('&gt;', '')))
-                    mention_html = f'<span class=\"mention-generic\">@{member.name}</span>'
-                    content = content.replace(mention, mention_html)
+            if message.attachments:
+                if message.attachments[0].height:
+                    current_message['content'].append(process_image(message.attachments[0]))
+                else:
+                    current_message['content'].append(process_file(message.attachments[0]))
 
-                #Role mentions
-                regex = r'&lt;@&amp;([0-9]+)&gt;'
-                matches = re.finditer(regex, content)
+            messages.append(current_message)
 
-                for match in matches:
-                    mention = match.group()
-                    role = discord.utils.get(ctx.guild.roles, id=int(mention.replace('&lt;@&amp;', '').replace('&gt;', '')))
-                    role_class = role.name.lower()
+            if message.reactions:
+                reactions = {'reactions': []}
 
-                    if role_class == 'vanilla' or role_class == 'fng' or role_class == 'ictf' or role_class == 'zcatch':
-                        role_class = 'non-ddr-moderator'
+                for reaction in message.reactions:
+                    emoji = str(reaction.emoji)
+                    match = re.search(r'<(:.*?:)(\d*)>', emoji)
 
-                    mention_html = f'<span class=\"mention-{role_class}\">@{role.name}</span>'
-                    content = content.replace(mention, mention_html)
-
-                #Channel mentions
-                regex = r'&lt;#([0-9]+)&gt;'
-                matches = re.finditer(regex, content)
-
-                for match in matches:
-                    mention = match.group()
-                    channel = ctx.guild.get_channel(int(mention.replace('&lt;#', '').replace('&gt;', '')))
-                    mention_html = f'<span class=\"mention-generic\">#{channel.name}</span>'
-                    content = content.replace(mention, mention_html)
-
-                #Multiline codeblock
-                regex = r'```+(?:[^`]*?\n)?([^`]+)\n?```+'
-                matches = re.finditer(regex, content)
-
-                for match in matches:
-                    codeblock = match.group()
-                    codeblock_html = codeblock.replace('```', '')
-
-                    if codeblock_html.startswith('\n'):
-                        codeblock_html = re.sub('^\n', '', codeblock_html)
-
-                    if codeblock_html.endswith('\n'):
-                        codeblock_html = re.sub('\n$', '', codeblock_html)
-
-                    codeblock_html = f"<pre>{codeblock_html}</pre>"
-                    content = content.replace(codeblock, codeblock_html)
-
-                #Inline codeblock
-                regex = r'(`|``)([^`]+)\1'
-                matches = re.finditer(regex, content)
-
-                for match in matches:
-                    codeblock = match.group()
-                    codeblock_html = f"<span class=\"pre\">{codeblock.replace('`', '')}</span>"
-                    content = content.replace(codeblock, codeblock_html)
-
-                #Bold
-                regex = r'(\*\*)(?=\S)(.+?[*_]*)(?<=\S)\1'
-                matches = re.finditer(regex, content)
-
-                for match in matches:
-                    bold = match.group()
-                    bold_html = re.sub('^\*\*', '<b>', bold)
-                    bold_html = re.sub('\*\*$', '</b>', bold_html)
-                    content = content.replace(bold, bold_html)
-
-                #Underline
-                regex = r'(__)(?=\S)(.+?)(?<=\S)\1'
-                matches = re.finditer(regex, content)
-
-                for match in matches:
-                    underline = match.group()
-                    underline_html = re.sub('^__', '<u>', underline)
-                    underline_html = re.sub('__$', '</u>', underline_html)
-                    content = content.replace(underline, underline_html)
-
-                #Italic
-                regex = r'(\*|_)(?=\S)(.+?)(?<=\S)\1'
-                matches = re.finditer(regex, content)
-
-                for match in matches:
-                    italic = match.group()
-                    italic_html = re.sub('^[\*_]', '<i>', italic)
-                    italic_html = re.sub('[\*_]$', '</i>', italic_html)
-                    content = content.replace(italic, italic_html)
-
-                #Strike through
-                regex = r'(~~)(?=\S)(.+?)(?<=\S)\1'
-                matches = re.finditer(regex, content)
-
-                for match in matches:
-                    strike_through = match.group()
-                    strike_through_html = re.sub('^~~', '<s>', strike_through)
-                    strike_through_html = re.sub('~~$', '</s>', strike_through_html)
-                    content = content.replace(strike_through, strike_through_html)
-
-                #New lines
-                content = content.replace('\n', '<br />')
-
-                #URLs
-                regex = r'(\b(?:(?:https?|ftp|file)://|www\.|ftp\.)(?:\([-a-zA-Z0-9+&@#/%?=~_|!:,\.\[\];]*\)|[-a-zA-Z0-9+&@#/%?=~_|!:,\.\[\];])*(?:\([-a-zA-Z0-9+&@#/%?=~_|!:,\.\[\];]*\)|[-a-zA-Z0-9+&@#/%=~_|$]))'
-                matches = re.finditer(regex, content)
-
-                for match in matches:
-                    url = match.group()
-                    url_html = f'<a href=\"{url}\">{url}</a>'
-                    content = content.replace(url, url_html)
-
-                #Custom emojis
-                regex = r'&lt;(:.*?:)(\d*)&gt;'
-                matches = re.finditer(regex, content)
-
-                for match in matches:
-                    emoji = match.group()
-                    emoji_name = re.sub(r'[^a-zA-Z]', '', emoji)
-                    emoji_name = emoji_name.replace('lt', '').replace('gt', '')
-                    emoji_id = re.sub(r'[^0-9]', '', emoji)
-                    emoji_html = f"<img class=\"emoji\" title=\"{emoji_name}\" src=\"https://cdn.discordapp.com/emojis/{emoji_id}.png\" />"
-                    content = content.replace(emoji, emoji_html)
-
-                #Attachments
-                if log.attachments:
-                    #Images
-                    if log.attachments[0].height:
-                        content += f'\n<div class=\"msg-attachment\">\n<a href=\"{log.attachments[0].url}\"><img class=\"msg-attachment\" src=\"{log.attachments[0].url}\" /></a>\n</div>'
+                    if match:
+                        reactions['reactions'].append(process_custom_reaction(match.group(1), match.group(2), reaction.count))
 
                     else:
-                        content += ('\n<div class=\"msg-attachment\">'
-                                    '\n<img class=\"msg-attachment-icon\" src=\"./graphics/svg/attachment.svg\" />'
-                                    '\n<div class=\"msg-attachment-inner\">'
-                                    '\n<div>'
-                                    f'\n<a href=\"{log.attachments[0].url}\">{log.attachments[0].filename}</a>'
-                                    '\n</div>'
-                                    f'\n<div class=\"msg-attachment-filesize\">{default.sizeof_fmt(log.attachments[0].size)}</div>'
-                                    '\n</div>'
-                                    f'\n<a href="{log.attachments[0].url}">'
-                                    '\n<svg viewBox=\"0 0 24 24\" class=\"download-button\" name=\"Download\" with=\"24px\" height=\"24px\"><g fill=\"none\" fill-rule=\"evenodd\">'
-                                    '\n<path d=\"M0 0h24v24H0z\"></path>'
-                                    '\n<path class=\"fill\" fill=\"currentColor\" d=\"M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z\"></path>'
-                                    '\n</g></svg>'
-                                    '\n</a>'
-                                    '\n</div>')
+                        reactions['reactions'].append(process_reaction(reaction))
 
-                #Edit
-                if log.edited_at:
-                    content += f'<span class=\"msg-edited\" title=\"{log.edited_at.strftime("%m/%d/%Y %I:%M %p")}\">(edited)</span>'
+                current_message['content'].append(reactions)
 
-                #Reactions
-                if log.reactions:
-                    content += '<span class=\"reaction\">'
-
-                    for reaction in log.reactions:
-                        reaction_emoji = str(reaction.emoji)
-                        
-                        #Custom emoji
-                        if '<' in str(reaction_emoji):
-                            emoji = reaction_emoji
-                            emoji_name = re.sub(r'[^a-zA-Z]', '', emoji)
-                            emoji_id = re.sub(r'[^0-9]', '', emoji)
-                            emoji_html = f"<img class=\"reaction-emoji\" title=\"{emoji_name}\" src=\"https://cdn.discordapp.com/emojis/{emoji_id}.png\" />"
-                            reaction_emoji = emoji_html
-
-                        content += f'<div class=\"reaction\">{reaction_emoji}<div class=\"reaction-count\">{reaction.count}</div></div>'
-
-                    content += '</span>'
-
-                #Combine messages
-                mins_ago = log.created_at - timedelta(minutes=10)
-
-                if author == log.author and mins_ago <= last_created_at:
-                    content_html += f'\n<div class="msg-content">\n{content}</div>'
-
-                else:
-                    author = log.author
-                    try:
-                        role = str(author.top_role).lower().replace(' ', '-')
-
-                        if role == '@everyone' or role == 'testing' or role == 'muted':
-                            role = 'everyone'
-
-                    except:
-                        role = 'everyone'
-
-                    content_html += ('\n</div>'
-                                    '\n</div>'
-                                    '\n<div class="msg">'
-                                    '\n<div class="msg-left">'
-                                    f'\n<img class="msg-avatar" src="{log.author.avatar_url_as(format="png")}">'
-                                    '\n</div>'
-                                    '\n<div class="msg-right">'
-                                    f'\n<span class="msg-user-{role}" title="{log.author}">{log.author.name}</span>'
-                                    f'\n<span class="msg-date">{time}</span>'
-                                    '\n<div class="msg-content">'
-                                    f'\n{content}'
-                                    '\n</div>')
-
-                last_created_at = log.created_at
-
-            html = (f'\n<!DOCTYPE html>\n<html lang="en"><head>'
-                    '\n<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">'
-                    '\n<link rel="stylesheet" type="text/css" href="assets/css/style.css">'
-                    f'\n<title>DDNet - {ctx.channel.name}</title>'
-                    '\n<meta name="viewport" content="width=device-width">'
-                    '\n</head>'
-                    '\n<body>'
-                    '\n<div class="log-info">'
-                    '\n<div class="log-content">'
-                    '\n<img class=\"map-testing-icon\" src=\"./graphics/png/map_testing.png\" />'
-                    f'\n<div class="channel-name">#{ctx.channel.name}</div>'
-                    f'\n<div class="channel-topic">{topic}</div>'
-                    f'\n<div class="channel-messagecount">{datetime.datetime.utcnow().strftime("%m/%d/%Y %I:%M %p")} {count} messages</div>'
-                    '\n</div>'
-                    '\n</div>'
-                    '\n<div id="log">'
-                    f'{content_html}'
-                    '\n</div>'
-                    '\n</body>'
-                    '\n</html>')
-
-            output.write(html)
+        output['messages'] = messages
+                    
+        with open(f'logs/{channel.name}.json', 'w', encoding='utf-8') as jsonfile:
+            output = json.dumps(output, indent=4)
+            jsonfile.write(output)
 
 def setup(bot):
     bot.add_cog(Archiving(bot))
