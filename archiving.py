@@ -1,9 +1,7 @@
-import datetime
 import re
-import itertools
-import configparser
 import os
 import json
+from urllib.parse import urlparse, urlunparse
 
 import discord
 from discord.ext import commands
@@ -16,7 +14,12 @@ def format_size(size):
         if abs(size) < 1024.0:
             return '%3.1f' % size, unit + 'B'
 
-        size /= 1024.0
+        size /= 1024.0#
+
+def parse_url(url):
+    url_parsed = urlparse(url)
+    url_parsed = url_parsed._replace(query='')
+    return urlunparse(url_parsed)
 
 class Archiving:
     def __init__(self, bot):
@@ -41,7 +44,6 @@ class Archiving:
                 'count': count
             }
 
-
         def process_file(attachment):
             basename, extension = os.path.splitext(attachment.filename)
             filesize, units = format_size(attachment.size)
@@ -49,7 +51,7 @@ class Archiving:
                 'attachment': {
                     'url': attachment.url,
                     'basename': basename,
-                    'extension': extension[1:],
+                    'extension': extension,
                     'filesize': filesize,
                     'filesize-units': units
                 }
@@ -61,7 +63,7 @@ class Archiving:
                 'image': {
                     'url': image.url,
                     'basename': basename,
-                    'extension': extension[1:]
+                    'extension': extension 
                 }
             }
 
@@ -91,7 +93,7 @@ class Archiving:
                 'user-mention': {
                     'name': user.name,
                     'discriminator': user.discriminator,
-                    'avatar': user.avatar_url_as(format='png')[:-10],
+                    'avatar': parse_url(user.avatar_url_as(format='png')),
                     'roles': roles[::-1]
                 }
             }
@@ -163,7 +165,6 @@ class Archiving:
         async for message in channel.history(reverse=True):
             user = message.author
             time = message.created_at
-
             roles = []
             for r in user.roles:
                 roles.append(r.name)
@@ -178,7 +179,7 @@ class Archiving:
                 'user': {
                     'name': user.name,
                     'discriminator': user.discriminator,
-                    'avatar': user.avatar_url_as(format='png')[:-10],
+                    'avatar': parse_url(user.avatar_url_as(format='png')),
                     'roles': roles[::-1]
                 },
                 'date': {
