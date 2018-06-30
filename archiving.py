@@ -1,7 +1,7 @@
 import re
 import os
 import json
-from urllib.parse import urlparse, urlunparse
+from urllib.parse import urlsplit
 
 import discord
 from discord.ext import commands
@@ -16,10 +16,9 @@ def format_size(size):
 
         size /= 1024.0#
 
-def parse_url(url):
-    url_parsed = urlparse(url)
-    url_parsed = url_parsed._replace(query='')
-    return urlunparse(url_parsed)
+def url_remove_query_string(url):
+    url_split = urlsplit(url)
+    return url_split.scheme + "://" + url_split.netloc + url_split.path
 
 class Archiving:
     def __init__(self, bot):
@@ -93,7 +92,7 @@ class Archiving:
                 'user-mention': {
                     'name': user.name,
                     'discriminator': user.discriminator,
-                    'avatar': parse_url(user.avatar_url_as(format='png')),
+                    'avatar': url_remove_query_string(user.avatar_url_as(format='png')),
                     'roles': roles[::-1]
                 }
             }
@@ -179,7 +178,7 @@ class Archiving:
                 'user': {
                     'name': user.name,
                     'discriminator': user.discriminator,
-                    'avatar': parse_url(user.avatar_url_as(format='png')),
+                    'avatar': url_remove_query_string(user.avatar_url_as(format='png')),
                     'roles': roles[::-1]
                 },
                 'date': {
