@@ -49,7 +49,7 @@ class Archiving:
                 'attachment': {
                     'url': attachment.url,
                     'basename': basename,
-                    'extension': extension[:1],
+                    'extension': extension[1:],
                     'filesize': filesize,
                     'filesize-units': units
                 }
@@ -61,7 +61,7 @@ class Archiving:
                 'image': {
                     'url': image.url,
                     'basename': basename,
-                    'extension': extension[:1]
+                    'extension': extension[1:]
                 }
             }
 
@@ -91,7 +91,7 @@ class Archiving:
                 'user-mention': {
                     'name': user.name,
                     'discriminator': user.discriminator,
-                    'avatar': user.avatar_url_as(format='png')[:-9],
+                    'avatar': user.avatar_url_as(format='png')[:-10],
                     'roles': roles[::-1]
                 }
             }
@@ -178,7 +178,7 @@ class Archiving:
                 'user': {
                     'name': user.name,
                     'discriminator': user.discriminator,
-                    'avatar': user.avatar_url_as(format='png')[:-9],
+                    'avatar': user.avatar_url_as(format='png')[:-10],
                     'roles': roles[::-1]
                 },
                 'date': {
