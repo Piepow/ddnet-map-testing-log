@@ -2,22 +2,27 @@
 
 namespace DDNet\MapTestingLog;
 
+use DDNet\MapTestingLog\Message;
+use DDNet\MapTestingLog\Channel;
+
 class MapTestingLog
 {
-    private $file;
+    public $name;
+    public $topic;
+    public $messages;
 
-    public function __construct(string $file)
+    public function __construct(array $source)
     {
-        $this->file = $file;
+        $this->name = $source['name'];
+        $this->topic = $source['topic'];
+        $this->messages = [];
+        foreach ($source['messages'] as $message) {
+            $this->messages[] = new Message($message);
+        }
     }
 
-    public function getName(): string
+    public static function getAsChannel(array $source): Channel
     {
-        return basename($this->file, '.html');
-    }
-
-    public function getHtml(): string
-    {
-        return file_get_contents($this->file);
+        return new Channel($source);
     }
 }

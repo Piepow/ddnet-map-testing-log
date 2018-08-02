@@ -1,0 +1,43 @@
+.log-header {
+    display: flex;
+    align-items: center;
+    height: $header-height;
+    line-height: $header-height;
+    width: 100%;
+    font-size: 1.25rem;
+    padding: 0 $padding;
+    position: fixed;
+    top: 0;
+    font-weight: bold;
+    background-color: $background-color;
+    box-shadow:
+        0 1px 0 transparentize(black, 0.8),
+        0 2px 0 transparentize(black, 0.94);
+
+    .channel-name {
+        color: getStrongTextColor($text-color);
+    }
+}
+
+.channel-name {
+    line-height: $header-height / 2;
+    color: $text-color;
+}
+
+.channel-marker {
+    color: getSubtleTextColor($text-color);
+    margin-right: 0.2em;
+}
+
+.channel-topic {
+    font-weight: normal;
+    line-height: $header-height / 2;
+    border-left: 1px solid transparentize($grey, 0.85);
+    margin-left: 1em;
+    padding-left: 1em;
+    font-size: $font-size - 2px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+

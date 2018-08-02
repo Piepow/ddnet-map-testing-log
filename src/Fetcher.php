@@ -19,8 +19,13 @@ class Fetcher
         $directoryIterator = new DirectoryIterator($this->logPath);
         foreach ($directoryIterator as $fileinfo) {
             if (!$fileinfo->isDot()) {
-                if ($name == $fileinfo->getBasename('.html')) {
-                    return new MapTestingLog($fileinfo->getPathname());
+                if ($name == $fileinfo->getBasename('.json')) {
+                    return new MapTestingLog(
+                        json_decode(
+                            file_get_contents($fileinfo->getPathname()),
+                            true
+                        )
+                    );
                 }
             }
         }
@@ -32,7 +37,14 @@ class Fetcher
         $directoryIterator = new DirectoryIterator($this->logPath);
         foreach ($directoryIterator as $fileinfo) {
             if (!$fileinfo->isDot()) {
-                $list[] = new MapTestingLog($fileinfo->getPathname());
+                if ($fileinfo->getExtension() == 'json') {
+                    $list[] = MapTestingLog::getAsChannel(
+                        json_decode(
+                            file_get_contents($fileinfo->getPathname()),
+                            true
+                        )
+                    );
+                }
             }
         }
         return $list;

@@ -1,0 +1,20 @@
+<nav class="log-list">
+    <h4 class="log-list-heading">Log list</h4>
+    <ul>
+    <?php foreach ($logList as $logChannel): ?>
+        <li class="log-list-item<?=
+        $logChannel->name == $log->name ? ' active' : ''
+        ?>">
+            <a href="<?=
+                $router->pathFor(
+                    'show.name',
+                    ['name' => $logChannel->name]
+                )
+                ?>">
+                <span class="channel-marker">#</span>
+                <span class="channel-name"><?= $logChannel->name ?></span>
+            </a>
+        </li>
+    <?php endforeach;?>
+    </ul>
+</nav>

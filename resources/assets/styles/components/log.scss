@@ -1,54 +1,16 @@
-$header-height: 48px;
 $msg-margin: $padding;
 
-.log-header {
-    display: flex;
-    align-items: center;
-    height: $header-height;
-    line-height: $header-height;
-    width: 100%;
-    max-width: 100%;
-    font-size: 1.25rem;
-    padding: 0 $padding;
-    position: fixed;
-    top: 0;
-    font-weight: bold;
-    background-color: $background-color;
-    box-shadow:
-        0 1px 0 transparentize(black, 0.8),
-        0 2px 0 transparentize(black, 0.94);
+.log-container {
+    flex: 1;
+    margin-top: $header-height;
 
-    .channel-name {
-        color: getStrongTextColor($text-color);
+    @include from($mobile) {
+        overflow: auto;
     }
 }
 
-.channel-name {
-    line-height: $header-height / 2;
-    color: $text-color;
-}
-
-.channel-marker {
-    color: getSubtleTextColor($text-color);
-    margin-right: 0.2em;
-}
-
-.channel-topic {
-    font-weight: normal;
-    line-height: $header-height / 2;
-    border-left: 1px solid transparentize($grey, 0.85);
-    margin-left: 1em;
-    padding-left: 1em;
-    font-size: $font-size - 2px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
 .log {
-    margin-top: $header-height;
     padding: $padding;
-
     pre {
         background: getAsideBackgroundColor($background-color);
         color: $grey;
@@ -88,7 +50,11 @@ $msg-margin: $padding;
 }
 
 .msg-left {
-    margin-right: $padding * 1.5;
+    margin-right: $padding * 1.2;
+}
+
+.msg-right {
+    flex: 1;
 }
 
 .msg-avatar {
@@ -105,13 +71,17 @@ $msg-margin: $padding;
 
 .msg-content {
     padding-top: 0.2em;
+
+    .text {
+        white-space: pre-line;
+    }
 }
 
 .msg-attachment {
-    display: flex;
-    align-items: center;
     max-width: 520px;
     width: 100%;
+    display: flex;
+    align-items: center;
     margin-bottom: $padding / 2;
     margin-top: $padding / 2;
     padding: $padding;
@@ -121,11 +91,18 @@ $msg-margin: $padding;
     border-color: getBorderColor($background-color);
 }
 
-img.msg-attachment {
-    max-height: 300px;
-    max-width: 50%;
-    padding: 0;
-    width: auto;
+.msg-content {
+    a.image-wrap {
+        margin-top: 0.5rem;
+        display: block;
+    }
+}
+
+.msg-image {
+    max-width: 520px;
+    width: 100%;
+    max-height: 350px;
+    height: 100%;
 }
 
 .msg-attachment-inner {
@@ -142,14 +119,19 @@ img.msg-attachment {
     color: getSubtleTextColor($text-color);
 }
 
+@mixin mention($color) {
+    color: $color;
+    background-color: transparentize($color, 0.9);
+}
+
 @each $user-name, $user-color in map-merge($role-colors, (generic: $link)) {
     .mention-#{$user-name} {
-        color: $user-color;
-        background-color: transparentize(
-            $user-color,
-            0.9
-        );
+        @include mention($user-color);
     }
+}
+
+.mention-channel {
+    @include mention($link);
 }
 
 @each $user-name, $user-color in map-merge($role-colors, (generic: $white)) {

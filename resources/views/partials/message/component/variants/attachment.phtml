@@ -1,0 +1,19 @@
+<div class="msg-attachment">
+    <img class="msg-attachment-icon" src="<?= $assetFetcher->getLink("attachment.svg") ?>" />
+    <div class="msg-attachment-inner">
+        <a href="<?= $component->url ?>">
+            <?= $component->basename ?><?= $component->extension ?>
+        </a>
+        <div class="msg-attachment-filesize">
+            <?= $component->filesize ?> <?= $component->filesizeUnits ?>
+        </div>
+    </div>
+    <a href="<?= $component->url ?>">
+        <svg viewBox="0 0 24 24" class="download-button" name="Download" with="24px" height="24px">
+            <g fill="none" fill-rule="evenodd">
+                <path d="M0 0h24v24H0z"></path>
+                <path class="fill" fill="currentColor" d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"></path>
+            </g>
+        </svg>
+    </a>
+</div>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width" />
+        <link
+            rel="stylesheet"
+            type="text/css"
+            href="<?= $assetFetcher->getLink("app.css") ?>">
+        <title><?= $log->name ?></title>
+    </head>
+    <body>
+        <div class="container">
+            <div class="log-list-container">
+                <?= $viewRenderer->fetch('partials/list.phtml', [
+                    'log' => $log,
+                    'logList' => $logList
+                ]) ?>
+            </div>
+            <div class="log-container">
+                <?= $viewRenderer->fetch('partials/show.phtml', [
+                    'log' => $log
+                ]) ?>
+            </div>
+        </div>
+    </body>
+</html>

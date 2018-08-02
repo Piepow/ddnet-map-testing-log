@@ -1,0 +1,5 @@
+<div class="text"><?php
+    foreach($component->components as $subComponent) {
+        echo preg_replace('/\n$/', '', $messageComponentRenderer->render($subComponent));
+    }
+?></div>

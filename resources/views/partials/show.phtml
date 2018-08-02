@@ -1,0 +1,35 @@
+<header class="log-header">
+    <span class="channel-marker">#</span><span class="channel-name"><?= $log->name ?></span>
+    <div class="channel-topic"><?= $log->topic ?></div>
+</header>
+
+<article class="log">
+    <?php foreach($log->messages as $message): ?>
+    <div class="msg">
+        <div class="msg-left">
+            <img class="msg-avatar" src="<?=
+                $message->author->avatar->url .
+                '?size=' .
+                $message->author->avatar->size
+            ?>">
+        </div>
+        <div class="msg-right">
+            <div class="msg-header">
+                <span
+                    class="msg-user-<?= $message->author->getProminentRole() ?>"
+                    title="<?= $message->author->name .  '#' .  $message->author->discriminator ?>">
+                    <?= $message->author->name ?>
+                </span>
+                <span class="msg-date"><?= $message->timestamp->format("m/d/Y g:i A") ?></span>
+            </div>
+            <div class="msg-content">
+                <?php
+                foreach ($message->content as $messageComponent) {
+                    echo $messageComponentRenderer->render($messageComponent);
+                }
+                ?>
+            </div>
+        </div>
+    </div>
+    <?php endforeach ?>
+</article>

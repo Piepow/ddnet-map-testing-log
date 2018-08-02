@@ -1,22 +1,16 @@
 @import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,700,700i);
 body > .container {
   display: flex;
-  flex-flow: row wrap; }
-  body > .container > * {
-    flex-basis: 100%; }
+  flex-direction: column-reverse; }
   @media screen and (min-width: 320px) {
     body > .container {
-      flex-flow: row nowrap; }
-      body > .container > * {
-        flex-basis: auto; } }
-  @media screen and (min-width: 1224px) {
-    body > .container {
-      max-width: 1160px;
-      width: 1160px; } }
+      height: 100vh;
+      flex-direction: row; } }
 
 * {
   margin: 0;
-  padding: 0; }
+  padding: 0;
+  box-sizing: border-box; }
 
 html {
   min-width: 300px;
@@ -36,20 +30,28 @@ code, pre {
   font-family: Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", monospace; }
 
 a {
-  color: #7289da;
-  text-decoration: none; }
-  a:hover {
-    text-decoration: underline; }
+  color: #7289da; }
 
 li {
   list-style-type: none; }
 
+a {
+  text-decoration: none; }
+  a:hover {
+    text-decoration: underline; }
+  a:visited {
+    color: #7289da; }
+
+.log-list-container {
+  margin-top: 0; }
+  @media screen and (min-width: 320px) {
+    .log-list-container {
+      flex-shrink: 0; } }
+
 .log-list {
   background-color: #2f3237;
-  padding: 1em 0.5em; }
-  @media screen and (min-width: 320px) {
-    .log-list {
-      flex-shrink: 0; } }
+  padding: 1em 0.5em;
+  height: 100%; }
 
 .log-list-heading {
   padding: 0 1em;
@@ -58,22 +60,25 @@ li {
   font-size: 14px;
   color: rgba(255, 255, 255, 0.2); }
 
-.log-list-item {
-  padding: 2px 1em 2px 1em; }
-  .log-list-item.active .channel-name {
-    color: white;
-    font-weight: bold; }
-  .log-list-item:hover {
-    cursor: pointer;
-    color: white;
-    background-color: #4a4d52;
-    border-radius: 3px; }
-    .log-list-item:hover:not(.active) .channel-name {
-      color: rgba(255, 255, 255, 0.7); }
-  .log-list-item .channel-name {
-    color: rgba(255, 255, 255, 0.5); }
-    .log-list-item .channel-name:hover {
-      text-decoration: none; }
+.log-list-item > a {
+  padding: 2px 1em 2px 1em;
+  display: block;
+  text-decoration: none; }
+
+.log-list-item.active .channel-name {
+  color: white;
+  font-weight: bold; }
+
+.log-list-item:hover {
+  cursor: pointer;
+  color: white;
+  background-color: #4a4d52;
+  border-radius: 3px; }
+  .log-list-item:hover:not(.active) .channel-name {
+    color: rgba(255, 255, 255, 0.7); }
+
+.log-list-item .channel-name {
+  color: rgba(255, 255, 255, 0.5); }
 
 .log-header {
   display: flex;
@@ -81,7 +86,6 @@ li {
   height: 48px;
   line-height: 48px;
   width: 100%;
-  max-width: 100%;
   font-size: 1.25rem;
   padding: 0 1em;
   position: fixed;
@@ -111,8 +115,14 @@ li {
   text-overflow: ellipsis;
   white-space: nowrap; }
 
+.log-container {
+  flex: 1;
+  margin-top: 48px; }
+  @media screen and (min-width: 320px) {
+    .log-container {
+      overflow: auto; } }
+
 .log {
-  margin-top: 48px;
   padding: 1em; }
   .log pre {
     background: #2f3237;
@@ -141,7 +151,10 @@ li {
   padding: 1em 0; }
 
 .msg-left {
-  margin-right: 1.5em; }
+  margin-right: 1.2em; }
+
+.msg-right {
+  flex: 1; }
 
 .msg-avatar {
   border-radius: 50%;
@@ -155,12 +168,14 @@ li {
 
 .msg-content {
   padding-top: 0.2em; }
+  .msg-content .text {
+    white-space: pre-line; }
 
 .msg-attachment {
-  display: flex;
-  align-items: center;
   max-width: 520px;
   width: 100%;
+  display: flex;
+  align-items: center;
   margin-bottom: 0.5em;
   margin-top: 0.5em;
   padding: 1em;
@@ -168,11 +183,15 @@ li {
   border-radius: 3px;
   border-color: #282a2f; }
 
-img.msg-attachment {
-  max-height: 300px;
-  max-width: 50%;
-  padding: 0;
-  width: auto; }
+.msg-content a.image-wrap {
+  margin-top: 0.5rem;
+  display: block; }
+
+.msg-image {
+  max-width: 520px;
+  width: 100%;
+  max-height: 350px;
+  height: 100%; }
 
 .msg-attachment-inner {
   margin-left: 1em;
@@ -226,6 +245,10 @@ img.msg-attachment {
   background-color: rgba(223, 207, 64, 0.1); }
 
 .mention-generic {
+  color: #7289da;
+  background-color: rgba(114, 137, 218, 0.1); }
+
+.mention-channel {
   color: #7289da;
   background-color: rgba(114, 137, 218, 0.1); }
 

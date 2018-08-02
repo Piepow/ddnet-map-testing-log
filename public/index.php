@@ -3,12 +3,14 @@
 require(dirname(__DIR__) . '/vendor/autoload.php');
 
 use Slim\App;
-use Slim\Views;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 use DDNet\MapTestingLog\Support\Config;
-use DDNet\MapTestingLog\Support\Asset;
-use DDNet\MapTestingLog;
+use DDNet\MapTestingLog\Fetcher as MapTestingLogFetcher;
+use DDNet\MapTestingLog\Support\Asset\Fetcher as AssetFetcher;
+use DDNet\MapTestingLog\Support\View\Renderer as ViewRenderer;
+use DDNet\MapTestingLog\Support\View\Helpers as ViewHelpers;
+use DDNet\MapTestingLog\Message\Component\Renderer as MessageComponentRenderer;
 
 // =============================
 // Slim framework initialization
@@ -28,18 +30,85 @@ $container['config'] = (new Config\Fetcher(
     dirname(__DIR__) . '/config/'
 ))->all();
 
-$container['view'] = function ($container) {
-    return new Views\PhpRenderer(
-        dirname(__DIR__) . '/resources/templates/'
+$container['mapTestingLogFetcher'] = function ($container) {
+    return new MapTestingLogFetcher(
+        $container['config']['resources']['mapTestingLogs']['path']
     );
 };
 
-$container['mapTestingLogFetcher'] = function ($container) {
-    return new MapTestingLog\Fetcher(dirname(__DIR__) . '/resources/logs/');
+$container['assetFetcher'] = function ($container) {
+    return new AssetFetcher($container['config']['app']['url']);
 };
 
-$container['assetFetcher'] = function ($container) {
-    return new Asset\Fetcher($container['config']['app']['url']);
+$container['viewRenderer'] = function ($container) {
+    $viewRenderer = new ViewRenderer(
+        $container['config']['resources']['views']['path']
+    );
+
+    $unmappedViewHelpers = [
+        'viewRenderer' => [
+            'name' => 'viewRenderer',
+            'helper' => $viewRenderer
+        ],
+        'assetFetcher' => [
+            'name' => 'assetFetcher',
+            'helper' => $container['assetFetcher']
+        ],
+        'markdownParser' => [
+            'name' => 'markdownParser',
+            'helper' => new ViewHelpers\MarkdownParser()
+        ],
+        'router' => [
+            'name' => 'router',
+            'helper' => $container['router']
+        ],
+        'messageComponentRenderer' => [
+            'name' => 'messageComponentRenderer',
+            'helper' => new MessageComponentRenderer(
+                $viewRenderer,
+                $container['config']['resources']['views']
+                    ['componentRenderer']['subPath'],
+                $container['config']['resources']['views']
+                    ['componentRenderer']['stepSubPath']
+            )
+        ]
+    ];
+
+    $viewHelpers = [
+        [
+            'view' => 'layouts/show.phtml',
+            'helper' => $unmappedViewHelpers['viewRenderer'],
+        ],
+        [
+            'view' => 'layouts/show.phtml',
+            'helper' => $unmappedViewHelpers['assetFetcher'],
+        ],
+        [
+            'view' => 'partials/list.phtml',
+            'helper' => $unmappedViewHelpers['router'],
+        ],
+        [
+            'view' => 'partials/show.phtml',
+            'helper' => $unmappedViewHelpers['messageComponentRenderer'],
+        ],
+        [
+            'view' => 'partials/message/component/variants/text/component/' .
+                'variants/text.phtml',
+            'helper' => $unmappedViewHelpers['markdownParser']
+        ],
+        [
+            'view' => 'partials/message/component/variants/text/component/' .
+                'variants/channel-mention.phtml',
+            'helper' => $unmappedViewHelpers['router']
+        ],
+        [
+            'view' => 'partials/message/component/variants/attachment.phtml',
+            'helper' => $unmappedViewHelpers['assetFetcher']
+        ]
+    ];
+
+    $viewRenderer->helpers = $viewHelpers;
+    return $viewRenderer;
 };
 
 // =======
@@ -54,11 +123,9 @@ $app->get('/show/{name}', function (
     $name = $args['name'];
     $log = $this->mapTestingLogFetcher->byName($name);
     $logList = $this->mapTestingLogFetcher->all();
-    $this->view->render($response, 'show.phtml', [
+    $this->viewRenderer->render($response, 'layouts/show.phtml', [
         'log' => $log,
-        'logList' => $logList,
-        'router' => $this->router,
-        'assetFetcher' => $this->assetFetcher
+        'logList' => $logList
     ]);
     return $response;
 })->setName('show.name');

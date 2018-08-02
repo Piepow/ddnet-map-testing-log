@@ -2,7 +2,9 @@
 
 namespace DDNet\MapTestingLog\Support\Asset;
 
-class Fetcher
+use DDNet\MapTestingLog\Contracts\Support\Asset\Fetcher as AssetFetcherContract;
+
+class Fetcher implements AssetFetcherContract
 {
     private $appUrl;
 
@@ -11,7 +13,7 @@ class Fetcher
         $this->appUrl = $appUrl;
     }
 
-    public function getLink(string $assetName)
+    public function getLink(string $assetName): string
     {
         return $this->appUrl . '/assets/' . $assetName;
     }

@@ -1,12 +1,17 @@
 $gutter: 0.5em;
 
-.log-list {
-    background-color: getAsideBackgroundColor($background-color);
-    padding: $padding $gutter;
+.log-list-container {
+    margin-top: 0;
 
     @include from($mobile) {
         flex-shrink: 0;
     }
+}
+
+.log-list {
+    background-color: getAsideBackgroundColor($background-color);
+    padding: $padding $gutter;
+    height: 100%;
 }
 
 .log-list-heading {
@@ -18,7 +23,11 @@ $gutter: 0.5em;
 }
 
 .log-list-item {
-    padding: 2px $padding 2px $padding;
+    > a {
+        padding: 2px $padding 2px $padding;
+        display: block;
+        text-decoration: none;
+    }
 
     &.active {
         .channel-name {
@@ -42,9 +51,5 @@ $gutter: 0.5em;
 
     .channel-name {
         color: getInactiveColor($text-color);
-
-        &:hover {
-            text-decoration: none;
-        }
     }
 }
