@@ -30,7 +30,7 @@ code, pre {
   font-family: Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", monospace; }
 
 a {
-  color: #7289da; }
+  color: #0096cf; }
 
 li {
   list-style-type: none; }
@@ -40,7 +40,7 @@ a {
   a:hover {
     text-decoration: underline; }
   a:visited {
-    color: #7289da; }
+    color: #0096cf; }
 
 .log-list-container {
   margin-top: 0; }
@@ -189,9 +189,7 @@ a {
 
 .msg-image {
   max-width: 520px;
-  width: 100%;
-  max-height: 350px;
-  height: 100%; }
+  max-height: 350px; }
 
 .msg-attachment-inner {
   margin-left: 1em;

@@ -129,7 +129,7 @@ $msg-margin: $padding;
 }
 
 .mention-channel {
-    @include mention($link);
+    @include mention($primary);
 }
 
 @each $user-name, $user-color in map-merge($role-colors, (generic: $white)) {
