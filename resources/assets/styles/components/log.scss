@@ -124,7 +124,7 @@ $msg-margin: $padding;
     background-color: transparentize($color, 0.9);
 }
 
-@each $user-name, $user-color in map-merge($role-colors, (generic: $link)) {
+@each $user-name, $user-color in map-merge($role-colors, (generic: $primary)) {
     .mention-#{$user-name} {
         @include mention($user-color);
     }
