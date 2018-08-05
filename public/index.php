@@ -11,6 +11,7 @@ use DDNet\MapTestingLog\Support\Asset\Fetcher as AssetFetcher;
 use DDNet\MapTestingLog\Support\View\Renderer as ViewRenderer;
 use DDNet\MapTestingLog\Support\View\Helpers as ViewHelpers;
 use DDNet\MapTestingLog\Message\Component\Renderer as MessageComponentRenderer;
+use DDNet\MapTestingLog\Support\Container\Access as ContainerAccess;
 
 // =============================
 // Slim framework initialization
@@ -28,7 +29,7 @@ $container = $app->getContainer();
 
 $container['config'] = (new Config\Fetcher(
     dirname(__DIR__) . '/config/'
-))->all();
+))->fetchAll();
 
 $container['mapTestingLogFetcher'] = function ($container) {
     return new MapTestingLogFetcher(
@@ -89,6 +90,10 @@ $container['viewRenderer'] = function ($container) {
         ],
         [
             'view' => 'partials/show.phtml',
+            'helper' => $unmappedViewHelpers['assetFetcher'],
+        ],
+        [
+            'view' => 'partials/show.phtml',
             'helper' => $unmappedViewHelpers['messageComponentRenderer'],
         ],
         [
@@ -111,6 +116,8 @@ $container['viewRenderer'] = function ($container) {
     return $viewRenderer;
 };
 
+ContainerAccess::$container = $container;
+
 // =======
 // Routing
 // =======
@@ -121,9 +128,9 @@ $app->get('/show/{name}', function (
     $args
 ) {
     $name = $args['name'];
-    $log = $this->mapTestingLogFetcher->byName($name);
-    $logList = $this->mapTestingLogFetcher->all();
-    $this->viewRenderer->render($response, 'layouts/show.phtml', [
+    $log = $this['mapTestingLogFetcher']->byName($name);
+    $logList = $this['mapTestingLogFetcher']->all();
+    $this['viewRenderer']->render($response, 'layouts/show.phtml', [
         'log' => $log,
         'logList' => $logList
     ]);

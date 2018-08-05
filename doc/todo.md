@@ -1,5 +1,10 @@
 # TODO
 
+- [ ] Protect from code injection
+
+- [ ] Merge consecutive messages
+- [ ] Add separators between messages separated by long periods of time
+
 - [ ] Parse markdown in message text
 
 - [ ] Organize `public/assets/`
@@ -11,6 +16,9 @@
 ---
 
 ### Archive
+
+- [x] Download avatars
+- [x] Use default avatar if no avatars available
 
 - [x] Improve python script converting discord info to HTML
   - [x] Solution #1
