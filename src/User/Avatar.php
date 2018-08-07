@@ -41,7 +41,7 @@ class Avatar
 
         if (file_exists($filePath)) {
             $this->isAsset = true;
-            return 'avatars/' . $lastDirectory . $filename;
+            return 'storage/avatars/' . $lastDirectory . $filename;
         }
 
         if (Url::getHttpResponseCode($url) == 200) {
@@ -54,7 +54,7 @@ class Avatar
             }
 
             $this->isAsset = true;
-            return 'avatars/' . $lastDirectory . $filename;
+            return 'storage/avatars/' . $lastDirectory . $filename;
         }
 
         $this->isAsset = false;
