@@ -7,7 +7,7 @@ class Url
     public static function getHttpResponseCode(
         string $url,
         bool $followRedirects = true
-    ): bool {
+    ): int {
         $headers = @get_headers($url);
         if ($headers && is_array($headers)) {
             if ($followRedirects) {

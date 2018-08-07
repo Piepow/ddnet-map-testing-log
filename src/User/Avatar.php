@@ -14,8 +14,8 @@ class Avatar
 
     public function __construct(string $url)
     {
-        $this->url = $this->determineUrl($url);
         $this->size = 40;
+        $this->url = $this->determineUrl($url);
     }
 
     private function determineUrl(string $url): string
@@ -46,18 +46,19 @@ class Avatar
 
         if (Url::getHttpResponseCode($url) == 200) {
             if (!is_dir($lastDirectoryPath)) {
-                error_log('mkdir');
-                mkdir($lastDirectoryPath, 0777, true);
+                mkdir($lastDirectoryPath, 0775, true);
             }
 
-            copy($url, $filePath);
+            if (!file_exists($filePath)) {
+                copy($url . '?size=' . $this->size, $filePath);
+            }
 
             $this->isAsset = true;
             return 'avatars/' . $lastDirectory . $filename;
         }
 
         $this->isAsset = false;
-        return 'https://cdn.discordapp.com/embed/avatars/0.png?size=' . $size;
+        return 'https://cdn.discordapp.com/embed/avatars/0.png?size=' . $this->size;
     }
 
     private function isDefaultAvatar(string $url): bool
