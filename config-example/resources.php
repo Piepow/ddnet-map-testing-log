@@ -1,6 +1,7 @@
 <?php
 
-$projectPath = '/home/plushie/Documents/web/ddnet-map-testing-log/';
+$projectConfig = include 'common/project.php';
+$projectPath = $projectConfig['path'];
 
 return [
     'views' => [

@@ -1,4 +1,6 @@
-/vendor/
+vendor/
 node_modules/
-resources/logs
+resources/logs/
 storage/
+public/assets/storage/
+config/
