@@ -1,61 +1,48 @@
-$gutter: 0.5em;
-
-.log-list-container {
-    margin-top: 0;
-
-    @include from($mobile) {
-        flex-shrink: 0;
-    }
-}
-
 .log-list {
     background-color: getAsideBackgroundColor($background-color);
-    padding-right: 17px;
+    padding: $padding;
+    padding-left: 0.5em;
     height: 100%;
-    width: 240px;
-    transition: opacity .2s ease-in-out;
 }
 
+$log-list-item-padding-left: 0.5em;
+
 .log-list-heading {
-    padding: 0 $padding;
     margin-bottom: $padding / 2;
+    padding-left: $log-list-item-padding-left;
     text-transform: uppercase;
     font-size: $font-size - 2px;
     color: getSubtleTextColor($text-color);
 }
 
 .log-list-item {
-    margin: 1px 0 1px 8px;
-    padding: 0 8px;
-    height: 32px;
-    line-height: 32px;
-    font-size: 16px;
-    font-weight: 500;
+    border-radius: $radius;
+
     > a {
+        padding: 0.25em 0;
+        padding-left: $log-list-item-padding-left;
         display: block;
         text-decoration: none;
     }
 
+    .channel-name {
+        color: #72767d;
+    }
+
     &.active {
-        background-color: rgba(79,84,92,.6);
-        border-radius: $radius;
+        background-color: transparentize(getTintedBackgroundColor($background-color), 0.25);
         .channel-name {
-            color: #f6f6f7;
+            color: getStrongTextColor($text-color);
         }
     }
 
     &:hover {
         cursor: pointer;
         &:not(.active) {
-            background-color: #35393f;
-            border-radius: $radius;
+            background-color: transparentize(getTintedBackgroundColor($background-color), 0.7);
             .channel-name {
-                color: #b9bbbe;
+                color: getInactiveColor($text-color);
             }
         }
-    }
-
-    .channel-name {
-        color: #72767d;
     }
 }

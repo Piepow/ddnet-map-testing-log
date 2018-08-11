@@ -2,10 +2,27 @@
 body > .container {
   display: flex;
   flex-direction: column-reverse; }
-  @media screen and (min-width: 320px) {
+  @media screen and (min-width: 700px) {
     body > .container {
       height: 100vh;
       flex-direction: row; } }
+
+@media screen and (min-width: 700px) {
+  .log-list-container {
+    flex-shrink: 0; } }
+
+.log-list {
+  width: 100%; }
+  @media screen and (min-width: 700px) {
+    .log-list {
+      width: 240px; } }
+
+.log-container {
+  flex: 1;
+  margin-top: 48px; }
+  @media screen and (min-width: 700px) {
+    .log-container {
+      overflow: auto; } }
 
 * {
   margin: 0;
@@ -42,43 +59,38 @@ a {
   a:visited {
     color: #0096cf; }
 
-.log-list-container {
-  margin-top: 0; }
-  @media screen and (min-width: 320px) {
-    .log-list-container {
-      flex-shrink: 0; } }
-
 .log-list {
   background-color: #2f3237;
-  padding: 1em 0.5em;
+  padding: 1em;
+  padding-left: 0.5em;
   height: 100%; }
 
 .log-list-heading {
-  padding: 0 1em;
   margin-bottom: 0.5em;
+  padding-left: 0.5em;
   text-transform: uppercase;
   font-size: 14px;
   color: rgba(255, 255, 255, 0.2); }
 
-.log-list-item > a {
-  padding: 2px 1em 2px 1em;
-  display: block;
-  text-decoration: none; }
-
-.log-list-item.active .channel-name {
-  color: white;
-  font-weight: bold; }
-
-.log-list-item:hover {
-  cursor: pointer;
-  color: white;
-  background-color: #4a4d52;
+.log-list-item {
   border-radius: 3px; }
-  .log-list-item:hover:not(.active) .channel-name {
-    color: rgba(255, 255, 255, 0.7); }
-
-.log-list-item .channel-name {
-  color: rgba(255, 255, 255, 0.5); }
+  .log-list-item > a {
+    padding: 0.25em 0;
+    padding-left: 0.5em;
+    display: block;
+    text-decoration: none; }
+  .log-list-item .channel-name {
+    color: #72767d; }
+  .log-list-item.active {
+    background-color: rgba(74, 77, 82, 0.75); }
+    .log-list-item.active .channel-name {
+      color: white; }
+  .log-list-item:hover {
+    cursor: pointer; }
+    .log-list-item:hover:not(.active) {
+      background-color: rgba(74, 77, 82, 0.3); }
+      .log-list-item:hover:not(.active) .channel-name {
+        color: rgba(255, 255, 255, 0.5); }
 
 .log-header {
   display: flex;
@@ -113,14 +125,8 @@ a {
   font-size: 14px;
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap; }
-
-.log-container {
-  flex: 1;
-  margin-top: 48px; }
-  @media screen and (min-width: 320px) {
-    .log-container {
-      overflow: auto; } }
+  white-space: nowrap;
+  color: rgba(255, 255, 255, 0.55); }
 
 .log {
   padding: 1em; }
@@ -136,11 +142,11 @@ a {
     background: #2f3237;
     font-family: Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", monospace;
     padding: 0.25em 0.5em;
-    white-space: pre-wrap;
     font-size: 14px; }
   .log > .msg {
     border-top: none;
-    padding-top: 0; }
+    padding-top: 0;
+    line-height: 1.3; }
     .log > .msg ~ .msg {
       border-top: 1px solid rgba(255, 255, 255, 0.04);
       padding: 1em 0; }
@@ -161,15 +167,21 @@ a {
   height: 40px;
   width: 40px; }
 
-.msg-date, .msg-edited {
+.msg-date {
   color: rgba(255, 255, 255, 0.2);
-  font-size: 0.9em;
-  margin-left: 0.2em; }
+  font-size: 0.75em;
+  margin-left: 0.3em; }
+
+.msg-edited {
+  color: rgba(255, 255, 255, 0.2);
+  font-size: 0.625em;
+  margin-left: 0.3em; }
 
 .msg-content {
   padding-top: 0.2em; }
   .msg-content .text {
-    white-space: pre-line; }
+    white-space: pre-wrap;
+    word-wrap: break-word; }
 
 .msg-attachment {
   max-width: 520px;
@@ -178,14 +190,14 @@ a {
   align-items: center;
   margin-bottom: 0.5em;
   margin-top: 0.5em;
-  padding: 1em;
+  padding: 0.66667em;
   background-color: #32353b;
   border-radius: 3px;
-  border-color: #282a2f; }
+  border: 1px solid rgba(40, 42, 47, 0.4); }
 
 .msg-content a.image-wrap {
   margin-top: 0.5rem;
-  display: block; }
+  display: inline-block; }
 
 .msg-image {
   max-width: 520px;
@@ -196,10 +208,10 @@ a {
   flex: 1; }
 
 .msg-attachment-filesize {
-  color: rgba(255, 255, 255, 0.2); }
+  color: rgba(255, 255, 255, 0.2);
+  font-size: 12px; }
 
 .download-button {
-  margin-left: 1em;
   color: rgba(255, 255, 255, 0.2); }
 
 .mention-moderator {

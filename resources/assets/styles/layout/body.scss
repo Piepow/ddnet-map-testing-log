@@ -1,9 +1,0 @@
-body > .container {
-    display: flex;
-    flex-direction: column-reverse;
-
-    @include from($mobile) {
-        height: 100vh;
-        flex-direction: row;
-    }
-}

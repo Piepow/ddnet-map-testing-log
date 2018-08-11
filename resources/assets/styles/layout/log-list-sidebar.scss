@@ -1,0 +1,36 @@
+$sidebar-width: 240px;
+$content-min-width: 460px;
+$viewport-min-width-for-sidebar: $sidebar-width + $content-min-width;
+
+body > .container {
+    display: flex;
+    flex-direction: column-reverse;
+
+    @include from($viewport-min-width-for-sidebar) {
+        height: 100vh;
+        flex-direction: row;
+    }
+}
+
+.log-list-container {
+    @include from($viewport-min-width-for-sidebar) {
+        flex-shrink: 0;
+    }
+}
+
+.log-list {
+    width: 100%;
+
+    @include from($viewport-min-width-for-sidebar) {
+        width: 240px;
+    }
+}
+
+.log-container {
+    flex: 1;
+    margin-top: $header-height;
+
+    @include from($viewport-min-width-for-sidebar) {
+        overflow: auto;
+    }
+}
