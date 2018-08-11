@@ -10,8 +10,10 @@ $gutter: 0.5em;
 
 .log-list {
     background-color: getAsideBackgroundColor($background-color);
-    padding: $padding $gutter;
+    padding-right: 17px;
     height: 100%;
+    width: 240px;
+    transition: opacity .2s ease-in-out;
 }
 
 .log-list-heading {
@@ -23,33 +25,37 @@ $gutter: 0.5em;
 }
 
 .log-list-item {
+    margin: 1px 0 1px 8px;
+    padding: 0 8px;
+    height: 32px;
+    line-height: 32px;
+    font-size: 16px;
+    font-weight: 500;
     > a {
-        padding: 2px $padding 2px $padding;
         display: block;
         text-decoration: none;
     }
 
     &.active {
+        background-color: rgba(79,84,92,.6);
+        border-radius: $radius;
         .channel-name {
-            color: getStrongTextColor($text-color);
-            font-weight: bold;
+            color: #f6f6f7;
         }
     }
 
     &:hover {
         cursor: pointer;
-        color: getStrongTextColor($text-color);
-        background-color: getTintedBackgroundColor($background-color);
-        border-radius: $radius;
-
         &:not(.active) {
+            background-color: #35393f;
+            border-radius: $radius;
             .channel-name {
-                color: $text-color;
+                color: #b9bbbe;
             }
         }
     }
 
     .channel-name {
-        color: getInactiveColor($text-color);
+        color: #72767d;
     }
 }
