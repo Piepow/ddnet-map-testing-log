@@ -61,8 +61,7 @@ a {
 
 .log-list {
   background-color: #2f3237;
-  padding: 1em;
-  padding-left: 0.5em;
+  padding: 1em 0.5em;
   height: 100%; }
 
 .log-list-heading {

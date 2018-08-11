@@ -1,7 +1,6 @@
 .log-list {
     background-color: getAsideBackgroundColor($background-color);
-    padding: $padding;
-    padding-left: 0.5em;
+    padding: $padding ($padding / 2);
     height: 100%;
 }
 
