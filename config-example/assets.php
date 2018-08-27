@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'mapTestingLog' => [
+    'mapTestingLogs' => [
         'avatars' => [
             'subPath' => 'logs/files/avatars/'
         ],
