@@ -72,6 +72,10 @@ $container['viewRenderer'] = function ($container) {
                 $container['config']['resources']['views']
                     ['componentRenderer']['stepSubPath']
             )
+        ],
+        'config' => [
+            'name' => 'config',
+            'helper' => $container['config']
         ]
     ];
 
@@ -97,6 +101,10 @@ $container['viewRenderer'] = function ($container) {
             'helper' => $unmappedViewHelpers['messageComponentRenderer'],
         ],
         [
+            'view' => 'partials/show.phtml',
+            'helper' => $unmappedViewHelpers['config'],
+        ],
+        [
             'view' => 'partials/message/component/variants/text/component/' .
                 'variants/text.phtml',
             'helper' => $unmappedViewHelpers['markdownParser']
@@ -109,6 +117,18 @@ $container['viewRenderer'] = function ($container) {
         [
             'view' => 'partials/message/component/variants/attachment.phtml',
             'helper' => $unmappedViewHelpers['assetFetcher']
+        ],
+        [
+            'view' => 'partials/message/component/variants/attachment.phtml',
+            'helper' => $unmappedViewHelpers['config']
+        ],
+        [
+            'view' => 'partials/message/component/variants/image.phtml',
+            'helper' => $unmappedViewHelpers['assetFetcher']
+        ],
+        [
+            'view' => 'partials/message/component/variants/image.phtml',
+            'helper' => $unmappedViewHelpers['config']
         ]
     ];
 

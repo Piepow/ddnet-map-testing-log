@@ -18,7 +18,7 @@ class Fetcher
         $config = [];
         $directoryIterator = new DirectoryIterator($this->configPath);
         foreach ($directoryIterator as $fileinfo) {
-            if (!$fileinfo->isDot()) {
+            if ($fileinfo->isFile()) {
                 $basename = $fileinfo->getBaseName('.php');
                 $config[$basename] = $this->fetchFile($basename);
             }

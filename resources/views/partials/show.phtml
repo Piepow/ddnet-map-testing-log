@@ -7,12 +7,10 @@
     <?php foreach($log->messages as $message): ?>
     <div class="msg">
         <div class="msg-left">
-            <img class="msg-avatar" src="<?php
-            if ($message->author->avatar->isAsset) {
-                echo $assetFetcher->getLink($message->author->avatar->url);
-            } else {
-                echo $message->author->avatar->url;
-            }
+            <img class="msg-avatar" src="<?=
+            $assetFetcher->getLink(
+                $config['assets']['mapTestingLogs']['avatars']['subPath'] . $message->author->avatar->id . '.png'
+            )
             ?>">
         </div>
         <div class="msg-right">

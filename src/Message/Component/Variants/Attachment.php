@@ -6,7 +6,7 @@ use DDNet\MapTestingLog\Message\Component;
 
 class Attachment extends Component
 {
-    public $url;
+    public $id;
     public $basename;
     public $extension;
     public $filesize;
@@ -15,7 +15,7 @@ class Attachment extends Component
     public function __construct(array $source)
     {
         $source = $source['attachment'];
-        $this->url = $source['url'];
+        $this->id = $source['id'];
         $this->basename = $source['basename'];
         $this->extension = $source['extension'];
         $this->filesize = $source['filesize'];

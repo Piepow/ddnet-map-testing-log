@@ -6,14 +6,14 @@ use DDNet\MapTestingLog\Message\Component;
 
 class Image extends Component
 {
-    public $url;
+    public $id;
     public $basename;
     public $extension;
 
     public function __construct(array $source)
     {
         $source = $source['image'];
-        $this->url = $source['url'];
+        $this->id = $source['id'];
         $this->basename = $source['basename'];
         $this->extension = $source['extension'];
     }

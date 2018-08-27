@@ -1,3 +1,9 @@
-<a class="image-wrap" href="<?= $component->url ?>">
-    <img class="msg-image" src="<?= $component->url ?>" />
+<a class="image-wrap" href="<?=
+    $assetFetcher->getLink(
+        $config['assets']['mapTestingLogs']['attachments']['subPath'] . $component->id . '.png'
+    ) ?>">
+    <img class="msg-image" src="<?=
+        $assetFetcher->getLink(
+            $config['assets']['mapTestingLogs']['attachments']['subPath'] . $component->id . '.png'
+        ) ?>" />
 </a>
