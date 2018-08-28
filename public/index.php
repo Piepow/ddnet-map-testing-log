@@ -89,6 +89,14 @@ $container['viewRenderer'] = function ($container) {
             'helper' => $unmappedViewHelpers['assetFetcher'],
         ],
         [
+            'view' => 'layouts/index.phtml',
+            'helper' => $unmappedViewHelpers['viewRenderer'],
+        ],
+        [
+            'view' => 'layouts/index.phtml',
+            'helper' => $unmappedViewHelpers['assetFetcher'],
+        ],
+        [
             'view' => 'partials/list.phtml',
             'helper' => $unmappedViewHelpers['router'],
         ],
@@ -141,6 +149,17 @@ ContainerAccess::$container = $container;
 // =======
 // Routing
 // =======
+
+$app->get('/', function (
+    Request $request,
+    Response $response
+) {
+    $logList = $this['mapTestingLogFetcher']->all();
+    $this['viewRenderer']->render($response, 'layouts/index.phtml', [
+        'logList' => $logList
+    ]);
+    return $response;
+});
 
 $app->get('/show/{name}', function (
     Request $request,

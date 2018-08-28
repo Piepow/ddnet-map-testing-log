@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width" />
+        <link
+            rel="stylesheet"
+            type="text/css"
+            href="<?= $assetFetcher->getLink("app.css") ?>">
+    </head>
+    <body>
+        <div class="container">
+            <div class="log-list-container">
+                <?= $viewRenderer->fetch('partials/list.phtml', [
+                    'logList' => $logList
+                ]) ?>
+            </div>
+            <div class="log-container-welcome">
+                <div class="welcome-container">
+                    <h2 class="welcome-header">Welcome</h3>
+                    <p class="welcome-subheader">Choose a log from the list to view</p>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

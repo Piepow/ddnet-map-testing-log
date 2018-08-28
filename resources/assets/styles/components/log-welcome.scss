@@ -1,0 +1,20 @@
+.log-container-welcome {
+    display: flex;
+}
+
+.welcome-container {
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    font-size: 1.25rem;
+    // align-items: center;
+}
+
+.welcome-header {
+    color: transparentize($text-color, 0.3);
+    font-size: 2em;
+}
+
+.welcome-subheader {
+    color: transparentize($text-color, 0.3);
+}

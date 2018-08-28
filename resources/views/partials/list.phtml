@@ -3,7 +3,7 @@
     <ul>
     <?php foreach ($logList as $logChannel): ?>
         <li class="log-list-item<?=
-        $logChannel->name == $log->name ? ' active' : ''
+        isset($log) ? $logChannel->name == $log->name ? ' active' : '' : ''
         ?>">
             <a href="<?=
                 $router->pathFor(

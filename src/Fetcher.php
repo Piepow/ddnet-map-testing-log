@@ -47,6 +47,11 @@ class Fetcher
                 }
             }
         }
+
+        usort($list, function($a, $b) {
+            return strcmp($a->name, $b->name);
+        });
+
         return $list;
     }
 }

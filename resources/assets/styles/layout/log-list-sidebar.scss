@@ -26,11 +26,19 @@ body > .container {
     }
 }
 
-.log-container {
+@mixin logContainer {
     flex: 1;
-    margin-top: $header-height;
 
     @include from($viewport-min-width-for-sidebar) {
         overflow: auto;
     }
+}
+
+.log-container {
+    @include logContainer;
+    margin-top: $header-height;
+}
+
+.log-container-welcome {
+    @include logContainer;
 }

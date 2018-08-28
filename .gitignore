@@ -2,5 +2,5 @@ vendor/
 node_modules/
 resources/logs/
 storage/
-public/assets/storage/
+public/assets/logs/files/
 config/
