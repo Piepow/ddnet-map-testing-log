@@ -117,13 +117,9 @@ $msg-margin: $padding;
     color: getSubtleTextColor($text-color);
 }
 
-@mixin mention($color) {
-    color: $color;
-    background-color: transparentize($color, 0.9);
-}
-
 .channel-mention, .user-mention {
-    @include mention($primary);
+    color: $primary;
+    background-color: transparentize($primary, 0.9);
 }
 
 @each $user-name, $user-color in map-merge($role-colors, (generic: $white)) {
