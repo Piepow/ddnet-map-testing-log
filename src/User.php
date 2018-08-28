@@ -16,7 +16,16 @@ class User
         $this->name = $source['name'];
         $this->discriminator = (int)$source['discriminator'];
         $this->avatar = new Avatar($source['avatar']);
-        $this->roles = $source['roles'];
+        $this->processAndSetRoles($source['roles']);
+    }
+
+    private function processAndSetRoles(array $roles)
+    {
+        foreach ($roles as $role) {
+            $role = strtolower($role);
+            $role = str_replace(' ', '-', $role);
+            $this->roles[] = $role;
+        }
     }
 
     public function getProminentRole()

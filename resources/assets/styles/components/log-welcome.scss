@@ -1,5 +1,10 @@
 .log-container-welcome {
     display: flex;
+    padding: ($padding * 1.5) $padding;
+
+    @include from($viewport-min-width-for-sidebar) {
+        padding: 0;
+    }
 }
 
 .welcome-container {

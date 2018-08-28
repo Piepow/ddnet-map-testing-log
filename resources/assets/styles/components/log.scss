@@ -38,6 +38,7 @@ $msg-margin: $padding;
     display: flex;
     border-top: 1px solid transparentize(white, 0.96);
     padding: $padding 0;
+    overflow: auto;
 }
 
 .msg-left {
