@@ -2,6 +2,7 @@
     background-color: getAsideBackgroundColor($background-color);
     padding: $padding ($padding / 2);
     height: 100%;
+    overflow: auto;
 }
 
 $log-list-item-padding-left: 0.5em;
