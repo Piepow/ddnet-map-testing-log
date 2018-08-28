@@ -21,10 +21,10 @@ class User
 
     public function getProminentRole()
     {
-        if (empty($array)) {
+        if (empty($this->roles)) {
             return 'generic';
         }
 
-        return array_values($array)[0];
+        return array_values($this->roles)[0];
     }
 }
