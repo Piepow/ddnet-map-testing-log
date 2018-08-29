@@ -14,7 +14,7 @@ npm install
 cp -r config-example config
 # Edit the files in `config/` to suit your needs, particularly `config/app.php`
 # and `config/common/project.php`
-mv resources/logs-example resources/logs
+cp -r resources/logs-example resources/logs
 # Note that the Discord bot that generates these logs aren't actually in this
 # repository
 mkdir public/assets/logs
