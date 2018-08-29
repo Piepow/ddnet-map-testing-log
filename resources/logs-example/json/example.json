@@ -1,0 +1,31 @@
+{
+    "protocol": {
+        "version": 1.0
+    },
+    "name": "example",
+    "topic": "Example Log",
+    "messages": [
+        {
+            "author": {
+                "name": "Tee",
+                "discriminator": "0001",
+                "avatar": {
+                    "id": "0"
+                },
+                "roles": [
+                    "generic"
+                ]
+            },
+            "timestamp": "2018-07-12T20:02:21.007000",
+            "content": [
+                {
+                    "text": [
+                        {
+                            "text": "This is an example message."
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
