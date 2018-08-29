@@ -8,6 +8,7 @@ Web interface to DDNet's map testing system on Discord.
 
 ```sh
 git clone https://github.com/Piepow/ddnet-map-testing-log.git
+cd ddnet-map-testing-log
 composer install
 npm install
 cp -r config-example config
