@@ -2,11 +2,9 @@
 
 namespace DDNet\MapTestingLog\Support\View\Helpers;
 
-class MarkdownParser
+use Parsedown;
+
+class MarkdownParser extends Parsedown
 {
-    public function toHtml(string $text): string
-    {
-        // TODO
-        return $text;
-    }
+    protected $safeMode = true;
 }

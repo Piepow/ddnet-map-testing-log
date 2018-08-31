@@ -2,19 +2,9 @@ $msg-margin: $padding;
 
 .log {
     padding: $padding;
-    pre {
-        background: getAsideBackgroundColor($background-color);
-        color: $grey;
-        padding: $padding;
-        margin-top: $msg-margin;
-        border-radius: $radius;
-        border: 2px solid getBorderColor($background-color);
-        max-width: 90%;
-    }
 
-    span.pre {
+    code {
         background: getAsideBackgroundColor($background-color);
-        font-family: $font-family-monospace;
         padding: 0.25em 0.5em;
         font-size: $font-size - 2px;
     }

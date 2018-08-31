@@ -14,18 +14,27 @@ module.exports = {
     rules: [
       {
         test: /\.scss$/,
-        use: [
-          // fallback to style-loader in development
-          MiniCssExtractPlugin.loader,
-          "css-loader",
-          "sass-loader"
-        ]
+        use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"]
+      },
+      {
+        test: /\.css$/,
+        use: [MiniCssExtractPlugin.loader, "css-loader"]
+      },
+      {
+        test: /\.js$/,
+        exclude: /(node_modules|bower_components)/,
+        use: {
+          loader: "babel-loader",
+          options: {
+            presets: ["@babel/preset-env"]
+          }
+        }
       }
     ]
   },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: "app.css",
+      filename: "app.css"
     }),
     new CopyWebpackPlugin([
       {
