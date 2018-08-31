@@ -8,6 +8,10 @@
 - [ ] Parse markdown in message text
   - [ ] Account for underlined text
 
+- [ ] Support emojis
+- [ ] Support reactions
+- [ ] Support indicator for edited messages
+
 - [ ] Organize `public/assets/`
   - [ ] Separate folders for different types of assets (e.g. JS, CSS, SVG)
 
