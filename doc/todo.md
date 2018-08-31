@@ -1,14 +1,14 @@
 # TODO
 
-- [ ] Protect from code injection
+- [ ] Protect from injection attacks
 
 - [ ] Merge consecutive messages
 - [ ] Add separators between messages separated by long periods of time
 
 - [ ] Parse markdown in message text
+  - [ ] Account for underlined text
 
 - [ ] Organize `public/assets/`
-  - [ ] Don't export a JavaScript bundle if not needed
   - [ ] Separate folders for different types of assets (e.g. JS, CSS, SVG)
 
 - [ ] Optimize SVG
