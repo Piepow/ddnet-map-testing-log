@@ -11,7 +11,6 @@ class CustomEmoji extends Component
 
     public function __construct(array $source)
     {
-        error_log("fuck");
         $source = $source['custom-emoji'];
         $this->name = $source['name'];
         $this->id = $source['id'];
