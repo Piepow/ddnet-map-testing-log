@@ -137,6 +137,14 @@ $container['viewRenderer'] = function ($container) {
         [
             'view' => 'partials/message/component/variants/image.phtml',
             'helper' => $unmappedViewHelpers['config']
+        ],
+        [
+            'view' => 'partials/message/component/variants/text/component/variants/custom-emoji.phtml',
+            'helper' => $unmappedViewHelpers['assetFetcher']
+        ],
+        [
+            'view' => 'partials/message/component/variants/text/component/variants/custom-emoji.phtml',
+            'helper' => $unmappedViewHelpers['config']
         ]
     ];
 

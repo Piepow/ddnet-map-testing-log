@@ -25,7 +25,7 @@ class Text extends Component
                 ComponentVariants\Text::class,
                 ComponentVariants\UserMention::class,
                 ComponentVariants\ChannelMention::class,
-                ComponentVariants\Url::class
+                ComponentVariants\CustomEmoji::class
             ]
         );
     }

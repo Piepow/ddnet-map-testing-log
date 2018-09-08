@@ -63,6 +63,23 @@ $msg-margin: $padding;
     .text {
         white-space: pre-wrap;
         word-wrap: break-word;
+
+        p {
+            display: inline-block;
+        }
+
+        // for custom emojis: {
+
+        > img:first-child {
+            margin-left: 0;
+        }
+
+        > img:only-child {
+            width: 2.5em;
+            height: 2.5em;
+        }
+
+        // }
     }
 }
 
@@ -78,7 +95,6 @@ $msg-margin: $padding;
     background-color: $background-color;
     border-radius: 3px;
     border: 1px solid transparentize(getBorderColor($background-color), 0.6);
-    // border: 1px solid rgba(47,49,54,.6);
 }
 
 .msg-content {
@@ -116,4 +132,11 @@ $msg-margin: $padding;
     .msg-user-#{$user-name} {
         color: $user-color;
     }
+}
+
+.msg-emoji {
+    width: 1.75em;
+    height: 1.75em;
+    vertical-align: middle;
+    margin: 0 0.5em;
 }
