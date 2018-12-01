@@ -6,14 +6,14 @@
         <link
             rel="stylesheet"
             type="text/css"
-            href="<?= $assetFetcher->getLink("app.css") ?>">
+            href="<?php echoh($assetFetcher->getLink("app.css")) ?>">
     </head>
     <body>
         <div class="container">
             <div class="log-list-container">
-                <?= $viewRenderer->fetch('partials/list.phtml', [
+                <?php echo($viewRenderer->fetch('partials/list.phtml', [
                     'logList' => $logList
-                ]) ?>
+                ])) ?>
             </div>
             <div class="log-container-welcome">
                 <div class="welcome-container">

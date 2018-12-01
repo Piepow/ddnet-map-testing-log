@@ -1,9 +1,13 @@
-<a class="image-wrap" href="<?=
-    $assetFetcher->getLink(
-        $config['assets']['mapTestingLogs']['attachments']['subPath'] . $component->id . $component->extension
-    ) ?>">
-    <img class="msg-image" src="<?=
+<a class="image-wrap" href="<?php
+    echoh(
         $assetFetcher->getLink(
             $config['assets']['mapTestingLogs']['attachments']['subPath'] . $component->id . $component->extension
+        )
+    ) ?>">
+    <img class="msg-image" src="<?php
+        echoh(
+            $assetFetcher->getLink(
+                $config['assets']['mapTestingLogs']['attachments']['subPath'] . $component->id . $component->extension
+            )
         ) ?>" />
 </a>

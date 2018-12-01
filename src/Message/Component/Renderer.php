@@ -23,6 +23,7 @@ class Renderer
         $this->stepSubPath = $stepSubPath;
     }
 
+    // Must return properly sanitized HTML
     public function render(Component $component): string
     {
         $viewData = ['component' => $component];

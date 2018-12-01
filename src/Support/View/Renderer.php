@@ -28,6 +28,7 @@ class Renderer implements RendererContract
         return $response;
     }
 
+    // Must return properly sanitized HTML
     public function fetch(string $view, array $data): string
     {
         $viewPath = $this->viewsPath . $view;

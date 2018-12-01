@@ -1,19 +1,23 @@
 <div class="msg-attachment">
-    <img class="msg-attachment-icon" src="<?= $assetFetcher->getLink("attachment.svg") ?>" />
+    <img class="msg-attachment-icon" src="<?php echoh($assetFetcher->getLink("attachment.svg")) ?>" />
     <div class="msg-attachment-inner">
-        <a href="<?=
-            $assetFetcher->getLink(
-                $config['assets']['mapTestingLogs']['attachments']['subPath'] . $component->id . $component->extension
+        <a href="<?php
+            echoh(
+                $assetFetcher->getLink(
+                    $config['assets']['mapTestingLogs']['attachments']['subPath'] . $component->id . $component->extension
+                )
             ) ?>" download>
-            <?= $component->basename ?><?= $component->extension ?>
+            <?php echoh($component->basename) ?><?php echoh($component->extension) ?>
         </a>
         <div class="msg-attachment-filesize">
-            <?= $component->filesize ?> <?= $component->filesizeUnits ?>
+            <?php echoh($component->filesize) ?> <?php echoh($component->filesizeUnits) ?>
         </div>
     </div>
-    <a href="<?=
-        $assetFetcher->getLink(
-            $config['assets']['mapTestingLogs']['attachments']['subPath'] . $component->id . $component->extension
+    <a href="<?php
+        echoh(
+            $assetFetcher->getLink(
+                $config['assets']['mapTestingLogs']['attachments']['subPath'] . $component->id . $component->extension
+            )
         ) ?>" download>
         <svg viewBox="0 0 24 24" class="download-button" name="Download" with="24px" height="24px">
             <g fill="none" fill-rule="evenodd">

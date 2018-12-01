@@ -1,1 +1,5 @@
-<?= $markdownParser->parse($component->text) ?>
+<?php
+// `safeMode` is already enabled in markdownParser, so don't escape html so
+// that HTML from the markdown parser shows up correctly
+echo($markdownParser->parse($component->text))
+?>

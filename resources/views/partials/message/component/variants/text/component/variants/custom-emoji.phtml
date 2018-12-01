@@ -1,4 +1,6 @@
-<img class="msg-emoji" src="<?=
-    $assetFetcher->getLink(
-        $config['assets']['mapTestingLogs']['emojis']['subPath'] . $component->id . '.png'
+<img class="msg-emoji" src="<?php
+    echoh(
+        $assetFetcher->getLink(
+            $config['assets']['mapTestingLogs']['emojis']['subPath'] . $component->id . '.png'
+        )
     ) ?>" />

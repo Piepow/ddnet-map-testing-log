@@ -2,17 +2,19 @@
     <h4 class="log-list-heading">Log list</h4>
     <ul>
     <?php foreach ($logList as $logChannel): ?>
-        <li class="log-list-item<?=
-        isset($log) ? $logChannel->name == $log->name ? ' active' : '' : ''
-        ?>">
-            <a href="<?=
-                $router->pathFor(
-                    'show.name',
-                    ['name' => $logChannel->name]
-                )
-                ?>">
+        <li class="log-list-item<?php
+            echoh(
+                isset($log) ? $logChannel->name == $log->name ? ' active' : '' : ''
+            ) ?>">
+            <a href="<?php
+                echoh(
+                    $router->pathFor(
+                        'show.name',
+                        ['name' => $logChannel->name]
+                    )
+                ) ?>">
                 <span class="channel-marker">#</span>
-                <span class="channel-name"><?= $logChannel->name ?></span>
+                <span class="channel-name"><?php echoh($logChannel->name) ?></span>
             </a>
         </li>
     <?php endforeach;?>
