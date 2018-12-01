@@ -1,14 +1,12 @@
 # TODO
 
-- [ ] Protect from injection attacks
-
 - [ ] Merge consecutive messages
 - [ ] Add separators between messages separated by long periods of time
 
-- [ ] Parse markdown in message text
+- [x] Parse markdown in message text
   - [ ] Account for underlined text
 
-- [ ] Support emojis
+- [x] Support emojis
 - [ ] Support reactions
 - [ ] Support indicator for edited messages
 
@@ -20,6 +18,8 @@
 ---
 
 ### Archive
+
+- [x] Protect from injection attacks
 
 - [x] Download avatars
 - [x] Use default avatar if no avatars available
